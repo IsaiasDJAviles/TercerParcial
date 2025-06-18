@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Buscar Empleado</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+  <h1>Buscar Empleado</h1>
+
+  <div class="row mb-3">
+    <div class="col">
+      <a href="/empleados" class="btn btn-primary">Ver Lista de Empleados</a>
+      <a href="/departamentos" class="btn btn-info">Ver Departamentos</a>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <form action="/buscar" method="get" class="row g-3">
+        <div class="col-auto">
+          <input type="number" name="empNo" class="form-control" placeholder="Número de Empleado" required>
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary">Buscar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div th:if="${empleado != null}" class="card">
+    <div class="card-header">
+      <h2 th:text="${empleado.firstName + ' ' + empleado.lastName}"></h2>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>Número de Empleado:</strong> <span th:text="${empleado.empNo}"></span></p>
+          <p><strong>Género:</strong> <span th:text="${empleado.gender}"></span></p>
+          <p><strong>Fecha de Nacimiento:</strong> <span th:text="${#temporals.format(empleado.birthDate, 'dd/MM/yyyy')}"></span></p>
+          <p><strong>Fecha de Contratación:</strong> <span th:text="${#temporals.format(empleado.hireDate, 'dd/MM/yyyy')}"></span></p>
+        </div>
+      </div>
+
+      <h3 class="mt-4">Departamentos</h3>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Código</th>
+          <th>Nombre</th>
+          <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="departamento : ${departamentos}">
+          <td th:text="${departamento.deptNo}"></td>
+          <td th:text="${departamento.deptName}"></td>
+          <td>
+            <a th:href="@{/departamentos/{id}(id=${departamento.deptNo})}" class="btn btn-sm btn-info">Ver Departamento</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
